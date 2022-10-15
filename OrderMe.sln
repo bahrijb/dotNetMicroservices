@@ -5,19 +5,15 @@ VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{4DACFA66-5669-4A30-A812-98A9C9D7B0D7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{BAFBDAEE-CF32-4100-AD4E-DEB9CD10FBDA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{5A3EC7B4-95AD-4262-A733-8518062BABCC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalogue", "Catalogue", "{3D399BED-7446-4B77-AD4C-DDF3892148E7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{3D399BED-7446-4B77-AD4C-DDF3892148E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.EF.Sql", "OrderMe.EF.Sql\OrderMe.EF.Sql.csproj", "{DF2B902B-08E4-47BC-9EB4-28A04E0BEEA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalog.DataAccess", "OrderMe.Cataluegue.DataAccess\OrderMe.Catalog.DataAccess.csproj", "{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Cataluegue.DataAccess", "OrderMe.Cataluegue.DataAccess\OrderMe.Cataluegue.DataAccess.csproj", "{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalog.BusinessLogic", "OrderMe.Catalogue.BusinessLogic\OrderMe.Catalog.BusinessLogic.csproj", "{47179534-DCB7-451B-A96F-DF9000A4A1FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalogue.BusinessLogic", "OrderMe.Catalogue.BusinessLogic\OrderMe.Catalogue.BusinessLogic.csproj", "{47179534-DCB7-451B-A96F-DF9000A4A1FA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalogue.Api", "OrderMe.Catalogue.Api\OrderMe.Catalogue.Api.csproj", "{D732F38A-FEDF-4034-AE32-CC4D79094F47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalog.Api", "OrderMe.Catalogue.Api\OrderMe.Catalog.Api.csproj", "{D732F38A-FEDF-4034-AE32-CC4D79094F47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DF2B902B-08E4-47BC-9EB4-28A04E0BEEA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF2B902B-08E4-47BC-9EB4-28A04E0BEEA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF2B902B-08E4-47BC-9EB4-28A04E0BEEA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF2B902B-08E4-47BC-9EB4-28A04E0BEEA5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,7 +40,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5A3EC7B4-95AD-4262-A733-8518062BABCC} = {4DACFA66-5669-4A30-A812-98A9C9D7B0D7}
 		{3D399BED-7446-4B77-AD4C-DDF3892148E7} = {4DACFA66-5669-4A30-A812-98A9C9D7B0D7}
-		{DF2B902B-08E4-47BC-9EB4-28A04E0BEEA5} = {BAFBDAEE-CF32-4100-AD4E-DEB9CD10FBDA}
 		{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935} = {3D399BED-7446-4B77-AD4C-DDF3892148E7}
 		{47179534-DCB7-451B-A96F-DF9000A4A1FA} = {3D399BED-7446-4B77-AD4C-DDF3892148E7}
 		{D732F38A-FEDF-4034-AE32-CC4D79094F47} = {3D399BED-7446-4B77-AD4C-DDF3892148E7}
