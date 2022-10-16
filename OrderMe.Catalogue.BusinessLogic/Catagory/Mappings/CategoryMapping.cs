@@ -32,7 +32,7 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Mappings
 
             return new DataAccess.Models.Category()
             {
-                CategoryId = src.CategoryId,
+                CategoryId = src.CategoryId.HasValue ? src.CategoryId.Value : 0,
                 Image = src.Image,
                 Name = src.Name,
                 ParentCategoryId = src.ParentCategoryId
