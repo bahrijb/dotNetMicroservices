@@ -10,6 +10,7 @@ namespace OrderMe.Catalog.DataAccess.Contexts
            : base(options) { }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Item> Items { get; set; }
         public async Task<int> SaveChangesAsync()
         {
             return await base.SaveChangesAsync();

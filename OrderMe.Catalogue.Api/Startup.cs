@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OrderMe.Catalog.BusinessLogic.Category.Mappings;
 using OrderMe.Catalog.BusinessLogic.Category.Services;
+using OrderMe.Catalog.BusinessLogic.Item.Mappings;
+using OrderMe.Catalog.BusinessLogic.Item.Services;
 using OrderMe.Catalog.DataAccess.Contexts;
 using System;
 using System.Collections.Generic;
@@ -29,12 +31,14 @@ namespace OrderMe.Catalog.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Databaes configurations
             services.AddDbContext<CatalogDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection"),
                    b => b.MigrationsAssembly(typeof(CatalogDbContext).Assembly.FullName)));
             services.AddScoped(provider => provider.GetService<CatalogDbContext>());
 
+            // Swagger configurations
             services.AddSwaggerGen(c =>
             {
                 c.IncludeXmlComments(string.Format("./OrderMe.Catalog.Api.Swagger.xml"));
@@ -49,11 +53,16 @@ namespace OrderMe.Catalog.Api
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new CategoryMapping());
+                mc.AddProfile(new ItemMapping());
             });
             IMapper mapper = mapperConfig.CreateMapper();
+
+            // Injections for constructors
             services.AddSingleton(mapper);
             services.AddScoped<ICatalogDbContext, CatalogDbContext>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IItemService, ItemService>();
+
             services.AddControllers();
         }
 

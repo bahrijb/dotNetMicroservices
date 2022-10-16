@@ -1,9 +1,7 @@
 ﻿using OrderMe.Catalog.BusinessLogic.Category.Dtos;
 using OrderMe.Catalog.DataAccess.Contexts;
-using System;
 using AutoMapper;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -56,14 +54,15 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Services
 
         public async Task<bool> Update(int id, CategoryDto categoryDto)
         {
-            var category = _context.Categories.Where(a => a.CategoryId == id).FirstOrDefault();
-            if (category == null) return false;
-            else
+            var categoryExists = await _context.Categories.Where(a => a.CategoryId == id).AnyAsync();
+            if (categoryExists)
             {
-                category = _mapper.Map<DataAccess.Models.Category>(categoryDto);
+                var category = _mapper.Map<DataAccess.Models.Category>(categoryDto);
+                _context.Categories.Update(category);
                 await _context.SaveChangesAsync();
                 return true;
             }
+            return false;
         }
     }
 }

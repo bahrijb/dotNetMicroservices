@@ -12,5 +12,6 @@ namespace OrderMe.Catalog.DataAccess.Models
         public int? ParentCategoryId { get; set; }
         public Category ParentCategory { get; set; }
         public virtual List<Category> ChildCategories { get; set; }
+        public virtual List<Item> Items { get; set; }
     }
 }

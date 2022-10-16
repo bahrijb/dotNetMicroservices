@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OrderMe.Catalog.BusinessLogic.Category.Dtos;
 using OrderMe.Catalog.BusinessLogic.Category.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OrderMe.Catalog.Api.Controllers
