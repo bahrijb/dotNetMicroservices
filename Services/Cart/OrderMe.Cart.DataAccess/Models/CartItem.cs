@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace OrderMe.Cart.DataAccess.Models
 {
-    public class Item
+    public class CartItem
     {
         [BsonElement("Name")]
         public string ItemName { get; set; }

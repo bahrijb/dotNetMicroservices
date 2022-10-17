@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cart", "Cart", "{5A3EC7B4-9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{3D399BED-7446-4B77-AD4C-DDF3892148E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.DataAccess", "Services\Catalog\OrderMe.Catalog\.DataAccess\OrderMe.Catalog.DataAccess.csproj", "{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.DataAccess", "Services\Catalog\OrderMe.Catalog.DataAccess\OrderMe.Catalog.DataAccess.csproj", "{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.BusinessLogic", "Services\Catalog\OrderMe.Catalog\.BusinessLogic\OrderMe.Catalog.BusinessLogic.csproj", "{47179534-DCB7-451B-A96F-DF9000A4A1FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.BusinessLogic", "Services\Catalog\OrderMe.Catalog.BusinessLogic\OrderMe.Catalog.BusinessLogic.csproj", "{47179534-DCB7-451B-A96F-DF9000A4A1FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.Api", "Services\Catalog\OrderMe.Catalog\.Api\OrderMe.Catalog.Api.csproj", "{D732F38A-FEDF-4034-AE32-CC4D79094F47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.Api", "Services\Catalog\OrderMe.Catalog.Api\OrderMe.Catalog.Api.csproj", "{D732F38A-FEDF-4034-AE32-CC4D79094F47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Cart.Api", "Services\Cart\OrderMe.Cart.Api\OrderMe.Cart.Api.csproj", "{61CF06D0-8F40-4356-B486-D287C50A5596}"
 EndProject

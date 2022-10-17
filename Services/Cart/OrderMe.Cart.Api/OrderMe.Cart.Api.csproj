@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OrderMe.Cart.BusinessLogic\OrderMe.Cart.BusinessLogic.csproj" />
+  </ItemGroup>
+
 </Project>
