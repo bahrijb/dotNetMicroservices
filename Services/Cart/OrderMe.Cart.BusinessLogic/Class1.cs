@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OrderMe.Catalgue.DataAccess
+namespace OrderMe.Cart.BusinessLogic
 {
     public class Class1
     {
