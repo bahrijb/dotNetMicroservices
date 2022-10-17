@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{4DACFA66-5669-4A30-A812-98A9C9D7B0D7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{5A3EC7B4-95AD-4262-A733-8518062BABCC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cart", "Cart", "{5A3EC7B4-95AD-4262-A733-8518062BABCC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{3D399BED-7446-4B77-AD4C-DDF3892148E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalog.DataAccess", "OrderMe.Cataluegue.DataAccess\OrderMe.Catalog.DataAccess.csproj", "{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.DataAccess", "OrderMe.Cataluegue.DataAccess\OrderMe.Catalog.DataAccess.csproj", "{5EF7C89A-A3DD-4EBC-8106-65F0D66F9935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalog.BusinessLogic", "OrderMe.Catalogue.BusinessLogic\OrderMe.Catalog.BusinessLogic.csproj", "{47179534-DCB7-451B-A96F-DF9000A4A1FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.BusinessLogic", "OrderMe.Catalogue.BusinessLogic\OrderMe.Catalog.BusinessLogic.csproj", "{47179534-DCB7-451B-A96F-DF9000A4A1FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderMe.Catalog.Api", "OrderMe.Catalogue.Api\OrderMe.Catalog.Api.csproj", "{D732F38A-FEDF-4034-AE32-CC4D79094F47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderMe.Catalog.Api", "OrderMe.Catalogue.Api\OrderMe.Catalog.Api.csproj", "{D732F38A-FEDF-4034-AE32-CC4D79094F47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

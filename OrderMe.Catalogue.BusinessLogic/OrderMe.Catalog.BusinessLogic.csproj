@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OrderMe.Cataluegue.DataAccess\OrderMe.Catalog.DataAccess.csproj" />
+    <ProjectReference Include="..\OrderMe.Catalog.DataAccess\OrderMe.Catalog.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
