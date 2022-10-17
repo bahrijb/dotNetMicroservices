@@ -6,10 +6,10 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Services
 {
     public interface ICartService
     {
-        Task<CartDto> Create(CartDto cartDto);
-        Task<bool> Delete(string id);
-        Task<List<CartDto>> GetAll();
-        Task<CartDto> GetById(string cartId);
-        Task<bool> Update(string id, CartDto cartDto);
+        Task<List<CartDto>> GetAllCarts();
+        Task<bool> DeleteById(string cartId);
+        Task<List<CartItemDto>> GetItemsByCartId(string cartId);
+        Task<CartDto> AddItemToCart(string cartId, CartItemDto cartItem);
+        Task<CartDto> RemoveItemFromCart(string cartId, int itemId);
     }
 }

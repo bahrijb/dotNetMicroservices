@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,10 +11,6 @@ using OrderMe.Catalog.BusinessLogic.Category.Services;
 using OrderMe.Catalog.BusinessLogic.Item.Mappings;
 using OrderMe.Catalog.BusinessLogic.Item.Services;
 using OrderMe.Catalog.DataAccess.Contexts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OrderMe.Catalog.Api
 {

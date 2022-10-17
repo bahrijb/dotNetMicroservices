@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OrderMe.Cart.BusinessLogic.Cart.Dtos;
+using System.Collections.Generic;
 
 namespace OrderMe.Cart.BusinessLogic.Cart.Mappings
 {
@@ -16,12 +17,24 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Mappings
             if (src == null)
                 return null;
 
+            var itemDtos = new List<CartItemDto>();
+
+            foreach(var item in src.Items)
+            {
+                itemDtos.Add(new CartItemDto
+                {
+                    ItemId = item.ItemId,
+                    Image = item.Image,
+                    ItemName = item.ItemName,
+                    Price = item.Price,
+                    Quantity = item.Quantity
+                });
+            }
+
             return new CartDto()
             {
                 CartId = src.CartId,
-                Image = src.Image,
-                Name = src.Name,
-                ParentCartId = src.ParentCartId
+                Items = itemDtos
             };
         }
 
@@ -30,12 +43,23 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Mappings
             if (src == null)
                 return null;
 
+            var items = new List<DataAccess.Models.CartItem>();
+            foreach (var item in src.Items)
+            {
+                items.Add(new DataAccess.Models.CartItem
+                {
+                    ItemId = item.ItemId,
+                    Image = item.Image,
+                    ItemName = item.ItemName,
+                    Price = item.Price,
+                    Quantity = item.Quantity
+                });
+            }
+
             return new DataAccess.Models.Cart()
             {
-                CartId = src.CartId.HasValue ? src.CartId.Value : 0,
-                Image = src.Image,
-                Name = src.Name,
-                ParentCartId = src.ParentCartId
+                CartId = src.CartId,
+                Items = items
             };
         }
     }

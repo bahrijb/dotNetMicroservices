@@ -13,38 +13,64 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Services
         private readonly IMongoCollection<DataAccess.Models.Cart> _cartsCollection;
         private readonly IMapper _mapper;
 
-        public CartService(
-            IOptions<CartStoreDataBaseSetings> cartStoreDatabaseSettings, IMapper mapper)
+        public CartService(IOptions<CartStoreDataBaseSetings> cartStoreDatabaseSettings, 
+            IMapper mapper)
         {
-
             _mapper = mapper;
-
-            var mongoClient = new MongoClient(
-                cartStoreDatabaseSettings.Value.ConnectionString);
-
-            var mongoDatabase = mongoClient.GetDatabase(
-                cartStoreDatabaseSettings.Value.DatabaseName);
-
-            _cartsCollection = mongoDatabase.GetCollection<DataAccess.Models.Cart>(
-                cartStoreDatabaseSettings.Value.CartCollectionName);
+            var mongoDatabase = InitalizeCartConneciton(cartStoreDatabaseSettings);
+            _cartsCollection = mongoDatabase.GetCollection<DataAccess.Models.Cart>(cartStoreDatabaseSettings.Value.CartCollectionName);
         }
 
-        public async Task<Dtos.CartDto> Create(Dtos.CartDto cartDto)
+        public async Task<List<Dtos.CartItemDto>> GetItemsByCartId(string cartId)
         {
-            var cartToAdd = _mapper.Map<DataAccess.Models.Cart>(cartDto);
-            await _cartsCollection.InsertOneAsync(cartToAdd);
-            return cartDto;
+            var cart = await GetById(cartId);
+            return cart.Items;
         }
 
-        public async Task<bool> Delete(string id)
+        public async Task<Dtos.CartDto> AddItemToCart(string cartId, Dtos.CartItemDto cartItem)
         {
-            var cart = await _cartsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+            var isCartExists = await IsCartExists(cartId);
+            if (isCartExists)
+            {
+                var existingCart = await GetById(cartId);
+                existingCart.Items.Add(cartItem);
+                await Update(existingCart);
+                return await GetById(cartId);
+            }
+            return await Create(new Dtos.CartDto
+            {
+                CartId = cartId,
+                Items = new List<Dtos.CartItemDto>() { cartItem }
+            });
+        }
+
+        public async Task<Dtos.CartDto> RemoveItemFromCart(string cartId, int itemId)
+        {
+            var isCartExists = await IsCartExists(cartId);
+            if (isCartExists)
+            {
+                var existingCart = await GetById(cartId);
+                var itemToRemove = existingCart.Items.Where(x => x.ItemId == itemId).FirstOrDefault();
+                if(itemToRemove != null)
+                {
+                    existingCart.Items.Remove(itemToRemove);
+                    await Update(existingCart);
+                    return await GetById(cartId);
+                }
+                return existingCart;
+            }
+            return new Dtos.CartDto();
+        }
+
+        public async Task<bool> DeleteById(string cartId)
+        {
+            var cart = await _cartsCollection.Find(x => x.CartId == cartId).FirstOrDefaultAsync();
             if (cart == null) return false;
-            await _cartsCollection.DeleteOneAsync(x => x.Id == id);
+            await _cartsCollection.DeleteOneAsync(x => x.CartId == cartId);
             return false;
         }
 
-        public async Task<List<Dtos.CartDto>> GetAll()
+        public async Task<List<Dtos.CartDto>> GetAllCarts()
         {
             var carts = await _cartsCollection.Find(_ => true).ToListAsync();
             if (carts == null || !carts.Any()) return new List<Dtos.CartDto>();
@@ -52,24 +78,46 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Services
             return existingCarts;
         }
 
-        public async Task<Dtos.CartDto> GetById(string cartId)
+        private IMongoDatabase InitalizeCartConneciton(IOptions<CartStoreDataBaseSetings> cartStoreDatabaseSettings)
         {
-            var cart = await _cartsCollection.Find(x => x.Id == cartId).FirstOrDefaultAsync();
+            var mongoClient = new MongoClient(
+                cartStoreDatabaseSettings.Value.ConnectionString);
+
+            return mongoClient.GetDatabase(
+                cartStoreDatabaseSettings.Value.DatabaseName);
+        }
+
+        private async Task<Dtos.CartDto> Create(Dtos.CartDto cartDto)
+        {
+            var cartToAdd = _mapper.Map<DataAccess.Models.Cart>(cartDto);
+            await _cartsCollection.InsertOneAsync(cartToAdd);
+            return cartDto;
+        }
+
+        private async Task<Dtos.CartDto> GetById(string cartId)
+        {
+            var cart = await _cartsCollection.Find(x => x.CartId == cartId).FirstOrDefaultAsync();
             if (cart == null) return new Dtos.CartDto();
             var existingCart = _mapper.Map<Dtos.CartDto>(cart);
             return existingCart;
         }
 
-        public async Task<bool> Update(string id, Dtos.CartDto cartDto)
+        private async Task<bool> Update(Dtos.CartDto cartDto)
         {
-            var cartExists = await _cartsCollection.Find(x => x.Id == id).AnyAsync();
+            var cartExists = await _cartsCollection.Find(x => x.CartId == cartDto.CartId).AnyAsync();
             if (cartExists)
             {
                 var cart = _mapper.Map<DataAccess.Models.Cart>(cartDto);
-                await _cartsCollection.ReplaceOneAsync(x => x.Id == id, cart);
+                await _cartsCollection.ReplaceOneAsync(x => x.CartId == cartDto.CartId, cart);
                 return true;
             }
             return false;
+        }
+
+        private async Task<bool> IsCartExists(string cartId)
+        {
+            var cart = await GetById(cartId);
+            return !string.IsNullOrWhiteSpace(cart.CartId);
         }
     }
 }

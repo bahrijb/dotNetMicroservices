@@ -1,14 +1,13 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using OrderMe.Cart.DataAccess.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using OrderMe.Cart.BusinessLogic.Cart.Mappings;
+using OrderMe.Cart.BusinessLogic.Cart.Services;
 
 namespace OrderMe.Cart.Api
 {
@@ -25,6 +24,29 @@ namespace OrderMe.Cart.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CartStoreDataBaseSetings>(Configuration.GetSection("CartStoreCollection"));
+
+            // Swagger configurations
+            services.AddSwaggerGen(c =>
+            {
+                c.IncludeXmlComments(string.Format("./OrderMe.Cart.Api.Swagger.xml"));
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "OrderMe.Cart.Api",
+                });
+            });
+
+            // Auto Mapper Configurations
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new CartMapping());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+
+            // Injections for constructors
+            services.AddSingleton(mapper);
+            services.AddScoped<ICartService, CartService>();
+
             services.AddControllers();
         }
 
@@ -35,23 +57,17 @@ namespace OrderMe.Cart.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderMe.Cart.Api");
+            });
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }

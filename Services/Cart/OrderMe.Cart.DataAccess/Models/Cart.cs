@@ -7,9 +7,9 @@ namespace OrderMe.Cart.DataAccess.Models
     public class Cart
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
+        [BsonElement("Id")]
+        [BsonRepresentation(BsonType.String)]
+        public string CartId { get; set; }
         public List<CartItem> Items { get; set; }
     }
 }
