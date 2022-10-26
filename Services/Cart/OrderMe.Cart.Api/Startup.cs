@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using OrderMe.Cart.DataAccess.Constants;
 using OrderMe.Cart.BusinessLogic.Cart.Mappings;
 using OrderMe.Cart.BusinessLogic.Cart.Services;
+using OrderMe.Cart.DataAccess.Repositories;
 
 namespace OrderMe.Cart.Api
 {
@@ -46,7 +47,7 @@ namespace OrderMe.Cart.Api
             // Injections for constructors
             services.AddSingleton(mapper);
             services.AddScoped<ICartService, CartService>();
-
+            services.AddScoped<ICartRepository, CartRepository>();
             services.AddControllers();
         }
 
