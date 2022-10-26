@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using AutoMapper;
-using OrderMe.Cart.DataAccess.Constants;
 using System.Linq;
 using OrderMe.Cart.DataAccess.Repositories;
 

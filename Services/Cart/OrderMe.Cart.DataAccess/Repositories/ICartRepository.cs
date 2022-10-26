@@ -10,6 +10,6 @@ namespace OrderMe.Cart.DataAccess.Repositories
         Task<bool> IsCartExists(string cartId);
         Task<bool> Update(Models.Cart cart);
         Task<bool> DeleteById(string cartId);
-        Task<List<Models.Cart>> GetAllCarts()
+        Task<List<Models.Cart>> GetAllCarts();
     }
 }
