@@ -10,6 +10,8 @@ namespace OrderMe.Catalog.BusinessLogic.Item.Services
         Task<bool> Delete(int id);
         Task<List<ItemDto>> GetAll();
         Task<ItemDto> GetById(int ItemId);
+        Task<List<ItemDto>> GetByCategoryId(int CategoryId);
+        Task<bool> DeleteByCategoryId(int CategoryId);
         Task<bool> Update(int id, ItemDto ItemDto);
     }
 }

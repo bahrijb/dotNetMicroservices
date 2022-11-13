@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace OrderMe.Cart.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [ApiVersion("2.0")]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
@@ -16,10 +17,16 @@ namespace OrderMe.Cart.Api.Controllers
             _cartService = cartService;
         }
 
-        [HttpGet("{cartId}", Name = "GetItemsByCartId")]
-        public async Task<List<CartItemDto>> GetItemsByCartId(string cartId)
+        //[HttpGet("{cartId}", Name = "GetItemsByCartId")]
+        //public async Task<List<CartItemDto>> GetItemsByCartId(string cartId)
+        //{
+        //    return await _cartService.GetItemsByCartId(cartId);
+        //}
+
+        [HttpGet("{cartId}", Name = "GetCartById")]
+        public async Task<CartDto> GetCartById(string cartId)
         {
-            return await _cartService.GetItemsByCartId(cartId);
+            return await _cartService.GetCartById(cartId);
         }
 
         [HttpPost("{cartId}", Name = "AddItemToCart")]
@@ -34,16 +41,16 @@ namespace OrderMe.Cart.Api.Controllers
             return await _cartService.RemoveItemFromCart(cartId, itemId);
         }
 
-        [HttpDelete("{cartId}", Name = "DeleteCart")]
-        public async Task<bool> DeleteCart(string cartId)
-        {
-            return await _cartService.DeleteById(cartId);
-        }
+        //[HttpDelete("{cartId}", Name = "DeleteCart")]
+        //public async Task<bool> DeleteCart(string cartId)
+        //{
+        //    return await _cartService.DeleteById(cartId);
+        //}
 
-        [HttpGet(Name = "GetAllCarts")]
-        public async Task<List<CartDto>> GetAllCarts()
-        {
-            return await _cartService.GetAllCarts();
-        }
+        //[HttpGet(Name = "GetAllCarts")]
+        //public async Task<List<CartDto>> GetAllCarts()
+        //{
+        //    return await _cartService.GetAllCarts();
+        //}
     }
 }

@@ -21,33 +21,37 @@ namespace OrderMe.Catalog.BusinessLogic.Item.Services
 
         public async Task<ItemDto> Create(ItemDto ItemDto)
         {
+            var itemExist = await _context.Items.Where(a => a.ItemId == ItemDto.ItemId).AnyAsync();
             var ItemToAdd = _mapper.Map<DataAccess.Models.Item>(ItemDto);
-            _context.Items.Add(ItemToAdd);
-            await _context.SaveChangesAsync();
+            if (!itemExist)
+            {
+                _context.Items.Add(ItemToAdd);
+                await _context.SaveChangesAsync();
+            }
             return ItemDto;
         }
 
         public async Task<List<ItemDto>> GetAll()
         {
-            var Items = await _context.Items.ToListAsync();
-            if (Items == null || !Items.Any()) return new List<ItemDto>();
-            var existingItems = _mapper.Map<List<DataAccess.Models.Item>, List<ItemDto>>(Items);
+            var items = await _context.Items.ToListAsync();
+            if (items == null || !items.Any()) return new List<ItemDto>();
+            var existingItems = _mapper.Map<List<DataAccess.Models.Item>, List<ItemDto>>(items);
             return existingItems;
         }
 
         public async Task<ItemDto> GetById(int ItemId)
         {
-            var Item = await _context.Items.Where(a => a.ItemId == ItemId).FirstOrDefaultAsync();
-            if (Item == null) return new ItemDto();
-            var existingItem = _mapper.Map<ItemDto>(Item);
+            var item = await _context.Items.Where(a => a.ItemId == ItemId).FirstOrDefaultAsync();
+            if (item == null) return new ItemDto();
+            var existingItem = _mapper.Map<ItemDto>(item);
             return existingItem;
         }
 
         public async Task<bool> Delete(int id)
         {
-            var Item = await _context.Items.Where(a => a.ItemId == id).FirstOrDefaultAsync();
-            if (Item == null) return false;
-            _context.Items.Remove(Item);
+            var item = await _context.Items.Where(a => a.ItemId == id).FirstOrDefaultAsync();
+            if (item == null) return false;
+            _context.Items.Remove(item);
             await _context.SaveChangesAsync();
             return false;
         }
@@ -63,6 +67,22 @@ namespace OrderMe.Catalog.BusinessLogic.Item.Services
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<ItemDto>> GetByCategoryId(int CategoryId)
+        {
+            var items = await _context.Items.Where(x => x.CategoryId == CategoryId).ToListAsync();
+            if (items == null || !items.Any()) return new List<ItemDto>();
+            var existingItems = _mapper.Map<List<DataAccess.Models.Item>, List<ItemDto>>(items);
+            return existingItems;
+        }
+
+        public async Task<bool> DeleteByCategoryId(int CategoryId)
+        {
+            var items = await _context.Items.Where(x => x.CategoryId == CategoryId).ToListAsync();
+            if (items == null || !items.Any()) return true;
+            _context.Items.RemoveRange(items);
+            return true;
         }
     }
 }

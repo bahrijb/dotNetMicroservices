@@ -9,6 +9,8 @@ using OrderMe.Cart.DataAccess.Constants;
 using OrderMe.Cart.BusinessLogic.Cart.Mappings;
 using OrderMe.Cart.BusinessLogic.Cart.Services;
 using OrderMe.Cart.DataAccess.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace OrderMe.Cart.Api
 {
@@ -49,6 +51,13 @@ namespace OrderMe.Cart.Api
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddControllers();
+            services.AddApiVersioning(x =>
+            {
+                x.DefaultApiVersion = new ApiVersion(1, 0);
+                x.AssumeDefaultVersionWhenUnspecified = true;
+                x.ReportApiVersions = true;
+                x.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
