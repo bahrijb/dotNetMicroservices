@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using AutoMapper;
 using System.Linq;
 using OrderMe.Cart.DataAccess.Repositories;
+using OrderMe.Cart.BusinessLogic.Cart.Dtos;
 
 namespace OrderMe.Cart.BusinessLogic.Cart.Services
 {
@@ -15,6 +16,12 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Services
         {
             _mapper = mapper;
             _cartRepository = cartRepository;
+        }
+        public async Task<CartDto> GetCartById(string cartId)
+        {
+            var cart = await _cartRepository.GetById(cartId);
+            var cartDto = _mapper.Map<Dtos.CartDto>(cart);
+            return cartDto;
         }
 
         public async Task<List<Dtos.CartItemDto>> GetItemsByCartId(string cartId)
