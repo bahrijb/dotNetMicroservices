@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using OrderMe.Catalog.BusinessLogic.Item.Services;
+using OrderMe.Catalog.BusinessLogic.Item.Dtos;
 
 namespace OrderMe.Catalog.BusinessLogic.Category.Services
 {
@@ -12,11 +14,13 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Services
     {
         private readonly ICatalogDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IItemService _itemService;
 
-        public CategoryService(ICatalogDbContext context, IMapper mapper)
+        public CategoryService(ICatalogDbContext context, IMapper mapper, IItemService itemService)
         {
             _context = context;
             _mapper = mapper;
+            _itemService = itemService;
         }
 
         public async Task<CategoryDto> Create(CategoryDto categoryDto)
@@ -43,18 +47,19 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Services
             return existingCategory;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int categoryId)
         {
-            var category = await _context.Categories.Where(a => a.CategoryId == id).FirstOrDefaultAsync();
+            var category = await _context.Categories.Where(a => a.CategoryId == categoryId).FirstOrDefaultAsync();
             if (category == null) return false;
+            await _itemService.DeleteByCategoryId(categoryId);
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return false;
         }
 
-        public async Task<bool> Update(int id, CategoryDto categoryDto)
+        public async Task<bool> Update(int categoryId, CategoryDto categoryDto)
         {
-            var categoryExists = await _context.Categories.Where(a => a.CategoryId == id).AnyAsync();
+            var categoryExists = await _context.Categories.Where(a => a.CategoryId == categoryId).AnyAsync();
             if (categoryExists)
             {
                 var category = _mapper.Map<DataAccess.Models.Category>(categoryDto);
@@ -63,6 +68,44 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Services
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<ItemDto>> AddItemToCategory(int categoryId, ItemDto item)
+        {
+            var categoryExists = await _context.Categories.Where(a => a.CategoryId == categoryId).AnyAsync();
+            if (categoryExists)
+            {
+                await _itemService.Create(item);
+                await _context.SaveChangesAsync();
+            }
+            return await _itemService.GetByCategoryId(categoryId);
+        }
+
+        public async Task<List<ItemDto>> UpdateItemInCategory(int categoryId, ItemDto item)
+        {
+            var categoryExists = await _context.Categories.Where(a => a.CategoryId == categoryId).AnyAsync();
+            if (categoryExists)
+            {
+                await _itemService.Update(item.ItemId.Value, item);
+                await _context.SaveChangesAsync();
+            }
+            return await _itemService.GetByCategoryId(categoryId);
+        }
+
+        public async Task<List<ItemDto>> DeleteItemFromCategory(int categoryId, int itemId)
+        {
+            var categoryExists = await _context.Categories.Where(a => a.CategoryId == categoryId).AnyAsync();
+            if (categoryExists)
+            {
+                await _itemService.Delete(itemId);
+                await _context.SaveChangesAsync();
+            }
+            return await _itemService.GetByCategoryId(categoryId);
+        }
+
+        public async Task<List<ItemDto>> GetAllItemsByCategory(int categoryId)
+        {
+            return await _itemService.GetByCategoryId(categoryId);
         }
     }
 }
