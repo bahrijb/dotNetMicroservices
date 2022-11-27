@@ -97,5 +97,17 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Services
             var existingCarts = _mapper.Map<List<DataAccess.Models.Cart>, List<Dtos.CartDto>>(carts);
             return existingCarts;
         }
+
+        public async Task<bool> UpdateItemInAllCarts(CartItemDto cartItem)
+        {
+            var carts = await _cartRepository.GetAllCarts();
+            var cartsToUdpate = carts.Where(x => x.Items.Any(it => it.ItemId == cartItem.ItemId)).ToList();
+            foreach(var cartToUpdate in cartsToUdpate)
+            {
+                await RemoveItemFromCart(cartToUpdate.CartId, cartItem.ItemId);
+                await AddItemToCart(cartToUpdate.CartId, cartItem);
+            }
+            return true;
+        }
     }
 }

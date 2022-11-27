@@ -12,5 +12,6 @@ namespace OrderMe.Cart.BusinessLogic.Cart.Services
         Task<List<CartItemDto>> GetItemsByCartId(string cartId);
         Task<CartDto> AddItemToCart(string cartId, CartItemDto cartItem);
         Task<CartDto> RemoveItemFromCart(string cartId, int itemId);
+        Task<bool> UpdateItemInAllCarts(CartItemDto cartItem);
     }
 }

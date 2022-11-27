@@ -76,7 +76,6 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Services
             if (categoryExists)
             {
                 await _itemService.Create(item);
-                await _context.SaveChangesAsync();
             }
             return await _itemService.GetByCategoryId(categoryId);
         }
@@ -87,7 +86,6 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Services
             if (categoryExists)
             {
                 await _itemService.Update(item.ItemId.Value, item);
-                await _context.SaveChangesAsync();
             }
             return await _itemService.GetByCategoryId(categoryId);
         }
@@ -98,7 +96,6 @@ namespace OrderMe.Catalog.BusinessLogic.Category.Services
             if (categoryExists)
             {
                 await _itemService.Delete(itemId);
-                await _context.SaveChangesAsync();
             }
             return await _itemService.GetByCategoryId(categoryId);
         }

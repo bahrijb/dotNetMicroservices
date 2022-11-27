@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System;
+using MassTransit;
+using OrderMe.Integration.Models;
 
 namespace OrderMe.Catalog.BusinessLogic.Item.Services
 {
@@ -12,11 +15,13 @@ namespace OrderMe.Catalog.BusinessLogic.Item.Services
     {
         private readonly ICatalogDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IBus _bus;
 
-        public ItemService(ICatalogDbContext context, IMapper mapper)
+        public ItemService(ICatalogDbContext context, IMapper mapper, IBus bus)
         {
             _context = context;
             _mapper = mapper;
+            _bus = bus;
         }
 
         public async Task<ItemDto> Create(ItemDto ItemDto)
@@ -64,6 +69,12 @@ namespace OrderMe.Catalog.BusinessLogic.Item.Services
                 var item = _mapper.Map<DataAccess.Models.Item>(ItemDto);
                 _context.Items.Update(item);
                 await _context.SaveChangesAsync();
+
+                Uri uri = new Uri("rabbitmq://localhost/itemQueue");
+                var endPoint = await _bus.GetSendEndpoint(uri);
+                var itemUpdateMessage = _mapper.Map<ItemMessageRequestDto>(item);
+                await endPoint.Send(itemUpdateMessage);
+
                 return true;
             }
             return false;
