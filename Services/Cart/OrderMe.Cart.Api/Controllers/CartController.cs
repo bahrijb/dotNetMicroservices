@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace OrderMe.Cart.Api.Controllers
 {
     [ApiController]
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
-    [ApiVersion("2.0")]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
@@ -47,10 +47,10 @@ namespace OrderMe.Cart.Api.Controllers
         //    return await _cartService.DeleteById(cartId);
         //}
 
-        //[HttpGet(Name = "GetAllCarts")]
-        //public async Task<List<CartDto>> GetAllCarts()
-        //{
-        //    return await _cartService.GetAllCarts();
-        //}
+        [HttpGet(Name = "GetAllCarts")]
+        public async Task<List<CartDto>> GetAllCarts()
+        {
+            return await _cartService.GetAllCarts();
+        }
     }
 }

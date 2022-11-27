@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using OrderMe.Catalog.BusinessLogic.Item.Dtos;
+using OrderMe.Integration.Models;
+using System;
 
 namespace OrderMe.Catalog.BusinessLogic.Item.Mappings
 {
@@ -8,7 +10,23 @@ namespace OrderMe.Catalog.BusinessLogic.Item.Mappings
         public ItemMapping()
         {
             CreateMap<DataAccess.Models.Item, ItemDto>().ConvertUsing(MapItemModelToDto);
+            CreateMap<DataAccess.Models.Item, ItemMessageRequestDto>().ConvertUsing(MapItemModelToMessageDto);
             CreateMap<ItemDto, DataAccess.Models.Item>().ConvertUsing(MapItemDtoToModel);
+        }
+
+        private ItemMessageRequestDto MapItemModelToMessageDto(DataAccess.Models.Item src)
+        {
+            if (src == null)
+                return null;
+
+            return new ItemMessageRequestDto()
+            {
+                ItemId = src.ItemId,
+                Amount = src.Amount,
+                Price = src.Price,
+                Image = src.Image,
+                Name = src.Name
+            };
         }
 
         private ItemDto MapItemModelToDto(DataAccess.Models.Item src)

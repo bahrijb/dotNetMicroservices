@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="MassTransit" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Integration\OrderMe.Integration.Models\OrderMe.Integration.Models.csproj" />
     <ProjectReference Include="..\OrderMe.Catalog.DataAccess\OrderMe.Catalog.DataAccess.csproj" />
   </ItemGroup>
 

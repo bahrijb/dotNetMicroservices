@@ -11,6 +11,8 @@ using OrderMe.Catalog.BusinessLogic.Category.Services;
 using OrderMe.Catalog.BusinessLogic.Item.Mappings;
 using OrderMe.Catalog.BusinessLogic.Item.Services;
 using OrderMe.Catalog.DataAccess.Contexts;
+using MassTransit;
+using System;
 
 namespace OrderMe.Catalog.Api
 {
@@ -57,7 +59,17 @@ namespace OrderMe.Catalog.Api
             services.AddScoped<ICatalogDbContext, CatalogDbContext>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IItemService, ItemService>();
-
+            services.AddMassTransit(x =>
+            {
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+                {
+                    config.Host(new Uri("rabbitmq://localhost"), h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                }));
+            });
             services.AddControllers();
         }
 

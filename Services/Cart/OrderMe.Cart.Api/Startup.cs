@@ -11,6 +11,9 @@ using OrderMe.Cart.BusinessLogic.Cart.Services;
 using OrderMe.Cart.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using MassTransit;
+using System;
+using OrderMe.Cart.BusinessLogic.Cart.Consumers;
 
 namespace OrderMe.Cart.Api
 {
@@ -50,6 +53,24 @@ namespace OrderMe.Cart.Api
             services.AddSingleton(mapper);
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICartRepository, CartRepository>();
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<ItemConsumer>();
+                x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+                {
+                    cfg.Host(new Uri("rabbitmq://localhost"), h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                    cfg.ReceiveEndpoint("itemQueue", ep =>
+                    {
+                        ep.PrefetchCount = 16;
+                        ep.UseMessageRetry(r => r.Interval(2, 100));
+                        ep.ConfigureConsumer<ItemConsumer>(provider);
+                    });
+                }));
+            });
             services.AddControllers();
             services.AddApiVersioning(x =>
             {
